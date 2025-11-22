@@ -14,7 +14,7 @@ object ApiConfig {
     //Courses
     fun getCourseById(id: UUID) = "$API_COURSES/$id"
     fun getAllCourses() = "$API_COURSES/all"
-    fun getRoadmap() = "$API_COURSES/roadmap"
+    fun getRoadmap(id: UUID) = "$API_COURSES/roadmap/$id"
 
     // User
     fun getUserById(id: UUID) = "$API_USERS/$id"

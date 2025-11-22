@@ -7,5 +7,8 @@ data class User(
     val login: String,
     val name: String,
     val surname: String,
-    val specialization: Specialization,
+    val specialization: Specialization?,
+    val activeCourses: List<Course>?,
+    val completedCourses: List<Course>?,
+    val skills: List<SkillLevel>?,
 )
