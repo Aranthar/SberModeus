@@ -1,7 +1,7 @@
 package ru.sbermodeus.presentation.specialization
 
-import ru.sbermodeus.data.model.dto.SpecializationDTO
+import ru.sbermodeus.domain.model.Specialization
 
 data class SpecializationState(
-    val specializationList: List<SpecializationDTO> = emptyList()
+    val specializationList: List<Specialization> = emptyList(),
 )

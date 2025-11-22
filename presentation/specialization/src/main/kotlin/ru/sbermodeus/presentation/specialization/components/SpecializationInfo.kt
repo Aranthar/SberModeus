@@ -10,12 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ru.sbermodeus.data.model.dto.SpecializationDTO
+import ru.sbermodeus.domain.model.Specialization
 
 @Composable
 fun SpecializationInfo(
-    specialization: SpecializationDTO,
-    onConfirm: () -> Unit
+    specialization: Specialization,
+    onConfirm: () -> Unit,
 ) {
     Column(
         modifier = Modifier

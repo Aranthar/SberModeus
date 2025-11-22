@@ -23,15 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ru.sbermodeus.data.model.dto.SpecializationDTO
-import ru.sbermodeus.presentation.specialization.SpecializationScreenViewModel
-import java.util.UUID
+import ru.sbermodeus.domain.model.Specialization
 
 @Composable
 fun SpecializationCard(
-    specialization: SpecializationDTO,
+    specialization: Specialization,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = Modifier

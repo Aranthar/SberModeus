@@ -12,7 +12,6 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
