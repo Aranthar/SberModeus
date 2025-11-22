@@ -14,6 +14,10 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/presentation" />
+            <option value="$PROJECT_DIR$/presentation/courses" />
+            <option value="$PROJECT_DIR$/presentation/navigation" />
+            <option value="$PROJECT_DIR$/presentation/profile" />
+            <option value="$PROJECT_DIR$/presentation/specialization" />
           </set>
         </option>
       </GradleProjectSettings>

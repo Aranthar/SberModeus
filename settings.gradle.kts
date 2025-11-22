@@ -11,6 +11,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -24,4 +25,10 @@ rootProject.name = "SberModeus"
 include(":app")
 include(":data")
 include(":domain")
-include(":presentation")
+include(
+    ":presentation",
+    ":presentation:specialization",
+    ":presentation:profile",
+    ":presentation:courses",
+    ":presentation:navigation",
+)

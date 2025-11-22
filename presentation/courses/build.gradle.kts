@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.sbermodeus.presentation"
+    namespace = "ru.sbermodeus.presentation.courses"
     compileSdk = 36
 
     defaultConfig {

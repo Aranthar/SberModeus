@@ -1,4 +1,4 @@
-package ru.sbermodeus.presentation
+package ru.sbermodeus.presentation.profile
 
 import org.junit.Test
 
