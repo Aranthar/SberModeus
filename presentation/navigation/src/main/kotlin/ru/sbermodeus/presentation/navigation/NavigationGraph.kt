@@ -19,6 +19,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.sbermodeus.presentation.roadmap.RoadmapScreen
 import ru.sbermodeus.presentation.auth.AuthScreen
 import ru.sbermodeus.presentation.courses.CoursesScreen
 import ru.sbermodeus.presentation.navigation.bottom_bar.AnimatedBottomBar
@@ -87,7 +88,6 @@ fun NavigationGraph(
                             }
                         )
                     }
-
                     is AuthRoute -> NavEntry(key) {
                         AuthScreen(
                             onLoginClick = { _, _ ->
@@ -95,9 +95,11 @@ fun NavigationGraph(
                             }
                         )
                     }
-
                     is CoursesRoute -> NavEntry(key) {
                         CoursesScreen()
+                    }
+                    is RoadmapRoute -> NavEntry(key) {
+                        RoadmapScreen()
                     }
 
                     else -> NavEntry(Unit) { Text("Unknown route") }
