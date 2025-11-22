@@ -25,6 +25,7 @@ import ru.sbermodeus.presentation.courses.CoursesScreen
 import ru.sbermodeus.presentation.navigation.bottom_bar.AnimatedBottomBar
 import ru.sbermodeus.presentation.navigation.bottom_bar.BottomBarTab
 import ru.sbermodeus.presentation.navigation.bottom_bar.tabs
+import ru.sbermodeus.presentation.profile.ProfileScreen
 import ru.sbermodeus.presentation.specialization.SpecializationScreen
 
 @Composable
@@ -100,6 +101,9 @@ fun NavigationGraph(
                     }
                     is RoadmapRoute -> NavEntry(key) {
                         RoadmapScreen()
+                    }
+                    is ProfileRoute -> NavEntry(key){
+                        ProfileScreen()
                     }
 
                     else -> NavEntry(Unit) { Text("Unknown route") }
