@@ -1,4 +1,4 @@
-package ru.sbermodeus.data.ktor
+package ru.sbermodeus.data.di
 
 import android.util.Log
 import dagger.Module
@@ -24,14 +24,14 @@ object HttpClientModule {
     @Provides
     fun provideHttpClient(): HttpClient {
         return HttpClient(engineFactory = OkHttp) {
-            install(plugin = ContentNegotiation) {
+            install(plugin = ContentNegotiation.Plugin) {
                 json(Json {
                     ignoreUnknownKeys = true
                     coerceInputValues = true
                 })
             }
-            install(plugin = WebSockets)
-            install(plugin = Logging) {
+            install(plugin = WebSockets.Plugin)
+            install(plugin = Logging.Companion) {
                 logger = object : Logger {
                     override fun log(message: String) {
                         Log.d("MyLog", message)
