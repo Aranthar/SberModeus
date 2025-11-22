@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class JwtRequestManager @Inject constructor(
+class RequestManager @Inject constructor(
     private val httpClient: HttpClient,
 ) {
     suspend fun createRequest(

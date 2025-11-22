@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SpecializationScreenViewModel @Inject constructor(
 
-): ViewModel() {
+) : ViewModel() {
     val vmScope = viewModelScope + SupervisorJob()
 
     val mockSpecializations = listOf(
@@ -27,12 +27,12 @@ class SpecializationScreenViewModel @Inject constructor(
             description = "Специалист, обрабатывающий и анализирующий большие объёмы информации.",
             avgSalary = 145000.0,
             avgCandidates = 2.4,
-            skills = listOf(
-                SkillLevel(UUID.randomUUID(),"Python", 4),
-                SkillLevel(UUID.randomUUID(),"SQL", 5),
-                SkillLevel(UUID.randomUUID(),"Математика", 3)
+            requiredSkills = listOf(
+                SkillLevel(UUID.randomUUID(), "Python", 4),
+                SkillLevel(UUID.randomUUID(), "SQL", 5),
+                SkillLevel(UUID.randomUUID(), "Математика", 3)
             ),
-            demandLevel = DemandLevel.HIGH
+            demandLevel = DemandLevel.HIGH,
         ),
         Specialization(
             id = UUID.randomUUID(),
@@ -40,12 +40,12 @@ class SpecializationScreenViewModel @Inject constructor(
             description = "Создаёт мобильные и/или веб-приложения.",
             avgSalary = 125000.0,
             avgCandidates = 3.0,
-            skills = listOf(
-                SkillLevel(UUID.randomUUID(),"Kotlin", 5),
-                SkillLevel(UUID.randomUUID(),"Jetpack Compose", 4),
-                SkillLevel(UUID.randomUUID(),"UI/UX", 3)
+            requiredSkills = listOf(
+                SkillLevel(UUID.randomUUID(), "Kotlin", 5),
+                SkillLevel(UUID.randomUUID(), "Jetpack Compose", 4),
+                SkillLevel(UUID.randomUUID(), "UI/UX", 3)
             ),
-            demandLevel = DemandLevel.MEDIUM
+            demandLevel = DemandLevel.MEDIUM,
         )
     )
 

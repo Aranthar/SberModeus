@@ -1,4 +1,4 @@
-package ru.sbermodeus.data.datasatore
+package ru.sbermodeus.data.datastore.remote
 
 import java.util.UUID
 

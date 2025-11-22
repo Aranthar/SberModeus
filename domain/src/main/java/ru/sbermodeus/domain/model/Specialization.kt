@@ -8,6 +8,6 @@ data class Specialization(
     val description: String,
     val avgSalary: Double,
     val avgCandidates: Double,
-    val skills: List<SkillLevel>,
+    val requiredSkills: List<SkillLevel>,
     val demandLevel: DemandLevel,
 )
