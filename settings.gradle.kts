@@ -32,3 +32,4 @@ include(
     ":presentation:courses",
     ":presentation:navigation",
 )
+include(":presentation:auth")
