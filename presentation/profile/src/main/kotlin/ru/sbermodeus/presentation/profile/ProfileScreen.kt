@@ -34,20 +34,21 @@ fun ProfileScreen(
             )
             Spacer(Modifier.height(10.dp))
             Text(
-                text = "Специализация: ${state.user.specialization.name}",
+                text = "Специализация: ${state.user.specialization?.name}",
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(Modifier.height(3.dp))
             Text(
-                text = state.user.specialization.description,
+                text = state.user.specialization?.description?: "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.height(10.dp))
 
             // Прогресс по специализации (например, средний навык по входным скиллам)
-            val progress = state.user.specialization.requiredSkills.map { it.level }.average() / 5.0
-            SpecializationProgressBar(progress)
+            val progress = state.user.specialization?.requiredSkills?.map { it.level }?.average()
+                ?.div(5.0)
+            SpecializationProgressBar(progress ?: 0.0)
         }
         item {
             Spacer(Modifier.height(24.dp))

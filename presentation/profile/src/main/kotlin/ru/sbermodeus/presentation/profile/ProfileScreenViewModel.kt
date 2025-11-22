@@ -40,7 +40,10 @@ class ProfileScreenViewModel @Inject constructor(
                 SkillLevel(UUID.randomUUID(), "SQL", 2),
             ),
             demandLevel = DemandLevel.HIGH
-        )
+        ),
+        activeCourses = emptyList(),
+        completedCourses = emptyList(),
+        skills = emptyList(),
     )
 
     val mockSkills = listOf(
