@@ -21,13 +21,57 @@ class UserDataStore @Inject constructor(
         return response.castOrNull<UserDTO>()
     }
 
+    suspend fun createUser(name: String, surname: String): UserDTO? {
+        val response = requestManager.createRequest(
+            methodType = HttpMethod.Post,
+            address = ApiConfig.API_USERS,
+            body = UserDTO(
+                id = UUID
+                    .randomUUID()
+                    .toString(),
+                login = "$name $surname",
+                name = name,
+                surname = surname,
+            )
+        )
+
+        return response.castOrNull<UserDTO>()
+    }
+
     suspend fun updateSpecialization(userId: UUID, specializationId: UUID): UserDTO? {
         val response = requestManager.createRequest(
-            methodType = HttpMethod.Get,
+            methodType = HttpMethod.Post,
             address = ApiConfig.getUserSpecialization(
                 userId = userId,
                 specializationId = specializationId,
             ),
+        )
+
+        return response.castOrNull<UserDTO>()
+    }
+
+    suspend fun addCourse(userId: UUID, specializationId: UUID): UserDTO? {
+        val response = requestManager.createRequest(
+            methodType = HttpMethod.Post,
+            address = ApiConfig.addUserCourse(userId = userId, specializationId = specializationId),
+        )
+
+        return response.castOrNull<UserDTO>()
+    }
+
+    suspend fun completeCourse(userId: UUID, courseId: UUID): UserDTO? {
+        val response = requestManager.createRequest(
+            methodType = HttpMethod.Post,
+            address = ApiConfig.completeCourse(userId = userId, courseId = courseId),
+        )
+
+        return response.castOrNull<UserDTO>()
+    }
+
+    suspend fun completeCourseForce(userId: UUID, courseId: UUID): UserDTO? {
+        val response = requestManager.createRequest(
+            methodType = HttpMethod.Post,
+            address = ApiConfig.completeCourseForce(userId = userId, courseId = courseId),
         )
 
         return response.castOrNull<UserDTO>()
