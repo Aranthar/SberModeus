@@ -26,7 +26,11 @@ fun CoursesScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(state.coursesList, key = { it.id }) { course ->
-            CourseCard(course)
+            CourseCard(
+                course = course,
+                isSelected = course.id in state.selectedIds,
+                onClick = { viewModel.onToggleCourse(course.id) }
+            )
         }
     }
 }

@@ -1,26 +1,40 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-
     alias(libs.plugins.kotlin.compose)
+
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
-    namespace = "ru.sbermodeus.presentation.navigation"
-    compileSdk = 36
+    namespace = "com.sbermodeus.presentation.roadmap"
+    compileSdk {
+        version = release(36)
+    }
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
-    kotlinOptions {
-        jvmTarget = "21"
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -28,11 +42,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":presentation:auth"))
-    implementation(project(":presentation:courses"))
-    implementation(project(":presentation:profile"))
-    implementation(project(":presentation:specialization"))
-    implementation(project(":presentation:roadmap"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
