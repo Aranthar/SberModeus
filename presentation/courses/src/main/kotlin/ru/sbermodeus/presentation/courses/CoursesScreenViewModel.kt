@@ -50,5 +50,12 @@ class CoursesScreenViewModel @Inject constructor(
     )
     val state: StateFlow<CoursesState> = _state.asStateFlow()
 
-
+    fun onToggleCourse(courseId: UUID) {
+        _state.value = _state.value.copy(
+            selectedIds = if (courseId in _state.value.selectedIds)
+                _state.value.selectedIds - courseId
+            else
+                _state.value.selectedIds + courseId
+        )
+    }
 }
