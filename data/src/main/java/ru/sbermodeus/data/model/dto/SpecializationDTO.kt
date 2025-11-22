@@ -12,6 +12,6 @@ data class SpecializationDTO(
     @SerialName(value = "description") val description: String,
     @SerialName(value = "avg_salary") val avgSalary: Double,
     @SerialName(value = "avg_candidates") val avgCandidates: Double,
-    @SerialName(value = "skills") val skills: List<SkillLevelDTO>,
+    @SerialName(value = "required_skills") val requiredSkills: List<SkillLevelDTO>,
     @SerialName(value = "demand_level") val demandLevel: DemandLevel,
 )

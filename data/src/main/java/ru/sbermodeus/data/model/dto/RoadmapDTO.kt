@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RoadmapDTO(
-    @SerialName(value = "periods") val periods: List<RoadmapPeriodDTO>
+    @SerialName(value = "periods") val periods: List<RoadmapPeriodDTO>,
 )
