@@ -20,6 +20,7 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import ru.sbermodeus.presentation.auth.AuthScreen
+import ru.sbermodeus.presentation.courses.CoursesScreen
 import ru.sbermodeus.presentation.navigation.bottom_bar.AnimatedBottomBar
 import ru.sbermodeus.presentation.navigation.bottom_bar.BottomBarTab
 import ru.sbermodeus.presentation.navigation.bottom_bar.tabs
@@ -93,6 +94,10 @@ fun NavigationGraph(
                                 backStack.add(SpecializationRoute)
                             }
                         )
+                    }
+
+                    is CoursesRoute -> NavEntry(key) {
+                        CoursesScreen()
                     }
 
                     else -> NavEntry(Unit) { Text("Unknown route") }

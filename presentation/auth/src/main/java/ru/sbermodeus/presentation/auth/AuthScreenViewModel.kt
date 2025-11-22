@@ -8,11 +8,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.plus
+import ru.sbermodeus.domain.repository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthScreenViewModel @Inject constructor(
-
+  //  private val userRepository: UserRepository
 ): ViewModel() {
     val vmScope = viewModelScope + SupervisorJob()
 
