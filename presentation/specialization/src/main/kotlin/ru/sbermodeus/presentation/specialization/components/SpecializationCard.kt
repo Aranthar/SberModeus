@@ -45,8 +45,8 @@ fun SpecializationCard(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 52.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(

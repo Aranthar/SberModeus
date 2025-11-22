@@ -23,7 +23,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             SberModeusTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavigationGraph()
+                    NavigationGraph(
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
