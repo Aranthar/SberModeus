@@ -40,7 +40,7 @@ fun SpecializationInfo(
         )
 
         Text("Ключевые навыки:", style = MaterialTheme.typography.bodyMedium)
-        specialization.skills.forEach { skill ->
+        specialization.requiredSkills.forEach { skill ->
             Text("— ${skill.name}: уровень ${skill.level}/5", style = MaterialTheme.typography.bodySmall)
         }
 

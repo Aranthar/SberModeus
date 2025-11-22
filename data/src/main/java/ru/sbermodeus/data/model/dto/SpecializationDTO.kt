@@ -3,11 +3,10 @@ package ru.sbermodeus.data.model.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ru.sbermodeus.domain.model.DemandLevel
-import java.util.UUID
 
 @Serializable
 data class SpecializationDTO(
-    @SerialName(value = "id") val id: UUID,
+    @SerialName(value = "id") val id: String,
     @SerialName(value = "name") val name: String,
     @SerialName(value = "description") val description: String,
     @SerialName(value = "avg_salary") val avgSalary: Double,
