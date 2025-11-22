@@ -8,4 +8,5 @@ import java.util.UUID
 data class UserDTO(
     @SerialName(value = "id") val id: UUID,
     @SerialName(value = "login") val login: String,
+    @SerialName(value = "specialization") val specialization: SpecializationDTO,
 )
