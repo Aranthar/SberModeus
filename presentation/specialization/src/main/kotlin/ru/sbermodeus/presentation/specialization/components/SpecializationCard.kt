@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,13 +40,13 @@ fun SpecializationCard(
             .clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
     ) {
-        Box(
+        Row (
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.CenterStart
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(1f)
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Center
             ) {
@@ -66,9 +67,7 @@ fun SpecializationCard(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 16.dp)
+                    modifier = Modifier.padding(end = 16.dp)
                 )
             }
         }

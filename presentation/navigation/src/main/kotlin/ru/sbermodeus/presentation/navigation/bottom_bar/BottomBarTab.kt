@@ -4,14 +4,14 @@ import androidx.compose.ui.graphics.Color
 import ru.sbermodeus.presentation.navigation.R
 
 sealed class BottomBarTab(val title: String, val icon: Int, val color: Color) {
-    data object Specialization : BottomBarTab(
-        title = "Specialization",
+    data object Courses : BottomBarTab(
+        title = "Courses",
         icon = R.drawable.ic_specialization,
         color = Color.White
     )
-    data object Courses : BottomBarTab(
-        title = "Courses",
-        icon = R.drawable.ic_courses,
+    data object Roadmap : BottomBarTab(
+        title = "Roadmap",
+        icon = R.drawable.ic_traectory,
         color = Color.White
     )
     data object Profile : BottomBarTab(
@@ -22,7 +22,7 @@ sealed class BottomBarTab(val title: String, val icon: Int, val color: Color) {
 }
 
 val tabs = listOf(
-    BottomBarTab.Specialization,
     BottomBarTab.Courses,
+    BottomBarTab.Roadmap,
     BottomBarTab.Profile,
 )

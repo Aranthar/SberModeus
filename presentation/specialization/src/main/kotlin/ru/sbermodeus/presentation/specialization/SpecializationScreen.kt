@@ -3,10 +3,14 @@ package ru.sbermodeus.presentation.specialization
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -29,51 +33,70 @@ import java.util.UUID
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpecializationScreen(
-    onSpecializationClick: (id: UUID) -> Unit = {},
+    onSpecializationSelect: (id: UUID) -> Unit = {},
+    onNavigateToCourses: () -> Unit = {},
     viewModel: SpecializationScreenViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-
     var selectedSpecialization by remember { mutableStateOf<Specialization?>(null) }
     var confirmedSpecialization by remember { mutableStateOf<Specialization?>(null) }
-    val bottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(state.specializationList, key = { it.id }) { specialization ->
-            SpecializationCard(
-                specialization = specialization,
-                isSelected = specialization == confirmedSpecialization,
+    Scaffold(
+        bottomBar = {
+            Button(
                 onClick = {
-                    selectedSpecialization = specialization
-                    coroutineScope.launch { bottomSheetState.show() }
-                }
-            )
+                    onSpecializationSelect(confirmedSpecialization!!.id)
+                    onNavigateToCourses()
+                },
+                enabled = confirmedSpecialization != null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(text = "Далее")
+            }
         }
-    }
-
-    if (selectedSpecialization != null) {
-        ModalBottomSheet(
-            onDismissRequest = {
-                coroutineScope.launch { bottomSheetState.hide() }
-                selectedSpecialization = null
-            },
-            sheetState = bottomSheetState
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            SpecializationInfo(
-                specialization = selectedSpecialization!!,
-                onConfirm = {
-                    confirmedSpecialization = selectedSpecialization
-                    onSpecializationClick(selectedSpecialization!!.id)
+            items(state.specializationList, key = { it.id }) { specialization ->
+                SpecializationCard(
+                    specialization = specialization,
+                    isSelected = specialization == confirmedSpecialization,
+                    onClick = {
+                        selectedSpecialization = specialization
+                        coroutineScope.launch { bottomSheetState.show() }
+                    }
+                )
+            }
+        }
+
+        if (selectedSpecialization != null) {
+            ModalBottomSheet(
+                onDismissRequest = {
                     coroutineScope.launch { bottomSheetState.hide() }
                     selectedSpecialization = null
-                }
-            )
+                },
+                sheetState = bottomSheetState
+            ) {
+                SpecializationInfo(
+                    specialization = selectedSpecialization!!,
+                    onConfirm = {
+                        confirmedSpecialization = selectedSpecialization
+                        coroutineScope.launch { bottomSheetState.hide() }
+                        selectedSpecialization = null
+                    }
+                )
+            }
         }
     }
 }

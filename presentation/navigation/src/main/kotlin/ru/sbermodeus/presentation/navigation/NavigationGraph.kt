@@ -80,7 +80,11 @@ fun NavigationGraph(
             entryProvider = { key ->
                 when (key) {
                     is SpecializationRoute -> NavEntry(key) {
-                        SpecializationScreen()
+                        SpecializationScreen(
+                            onNavigateToCourses = {
+                                backStack.add(CoursesRoute)
+                            }
+                        )
                     }
 
                     is AuthRoute -> NavEntry(key) {
@@ -100,13 +104,13 @@ fun NavigationGraph(
 
 private fun isBottomBarDestination(key: Any?): Boolean =
     when (key) {
-        is SpecializationRoute, is CoursesRoute, is ProfileRoute -> true
+        is RoadmapRoute, is CoursesRoute, is ProfileRoute -> true
         else -> false
     }
 
 private fun tabForKey(key: Any?): BottomBarTab? =
     when (key) {
-        is SpecializationRoute -> BottomBarTab.Specialization
+        is RoadmapRoute -> BottomBarTab.Roadmap
         is CoursesRoute -> BottomBarTab.Courses
         is ProfileRoute -> BottomBarTab.Profile
         else -> null
@@ -114,7 +118,7 @@ private fun tabForKey(key: Any?): BottomBarTab? =
 
 private fun navigateToTab(tab: BottomBarTab, backStack: SnapshotStateList<Any>) {
     when (tab) {
-        BottomBarTab.Specialization -> replaceWithRoot(backStack, SpecializationRoute)
+        BottomBarTab.Roadmap -> replaceWithRoot(backStack, RoadmapRoute)
         BottomBarTab.Courses -> replaceWithRoot(backStack, CoursesRoute)
         BottomBarTab.Profile -> replaceWithRoot(backStack, ProfileRoute)
     }

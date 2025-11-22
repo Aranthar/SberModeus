@@ -1,6 +1,6 @@
 package ru.sbermodeus.presentation.auth
 
 data class AuthState(
-    var name: String = "",
-    var surname: String = ""
+    var name: String = "Полина",
+    var surname: String = "Анкудинова"
 )
