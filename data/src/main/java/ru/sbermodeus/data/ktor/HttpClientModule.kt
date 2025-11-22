@@ -1,13 +1,20 @@
 package ru.sbermodeus.data.ktor
 
-import android.net.http.HttpResponseCache
 import android.util.Log
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
-import java.util.logging.Logger
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -17,21 +24,21 @@ object HttpClientModule {
     @Provides
     fun provideHttpClient(): HttpClient {
         return HttpClient(engineFactory = OkHttp) {
-            HttpResponseCache.install(plugin = ContentNegotiation) {
+            install(plugin = ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
                     coerceInputValues = true
                 })
             }
-            HttpResponseCache.install(plugin = WebSockets)
-            HttpResponseCache.install(plugin = Logging) {
+            install(plugin = WebSockets)
+            install(plugin = Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
                         Log.d("MyLog", message)
                     }
                 }
 
-                R.attr.level = LogLevel.ALL
+                level = LogLevel.ALL
             }
         }
     }

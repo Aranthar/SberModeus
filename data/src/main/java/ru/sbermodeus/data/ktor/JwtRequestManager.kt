@@ -20,7 +20,6 @@ import javax.inject.Inject
 
 class JwtRequestManager @Inject constructor(
     private val httpClient: HttpClient,
-    private val tokenManager: TokenManager
 ) {
     suspend fun createRequest(
         methodType: HttpMethod,
@@ -32,23 +31,8 @@ class JwtRequestManager @Inject constructor(
             httpClient.request(url, block)
         }
 
-        if (response?.status == HttpStatusCode.Forbidden) {
-            val refresh = executeRequest(
-                address = ApiRoutes.Auth.refresh(refreshToken = tokenManager.getTokens()?.refreshToken),
-                methodType = HttpMethod.Post,
-                body = null,
-            ) { url, block ->
-                httpClient.request(url, block)
-            }
-
-            if (refresh?.status == HttpStatusCode.OK) {
-                val newTokens = refresh.castOrNull<TokensDTO>()
-                newTokens?.let { tokenManager.saveTokens(it) }
-
-                return executeRequest(address, methodType, body, parameters) { url, block ->
-                    httpClient.request(url, block)
-                }
-            }
+        executeRequest(address, methodType, body, parameters) { url, block ->
+            httpClient.request(url, block)
         }
 
         return response
@@ -61,13 +45,10 @@ class JwtRequestManager @Inject constructor(
         parameters: Map<String, Any?>? = null,
         requestBuilder: suspend (String, HttpRequestBuilder.() -> Unit) -> T,
     ): T? {
-        val token = tokenManager.getTokens()?.accessToken
-
         return withContext(Dispatchers.IO) {
             try {
                 requestBuilder(address) {
                     method = methodType
-                    header(key = HttpHeaders.Authorization, value = "Bearer $token")
 
                     if (body !is MultiPartFormDataContent) {
                         header(key = HttpHeaders.ContentType, value = ContentType.Application.Json)
