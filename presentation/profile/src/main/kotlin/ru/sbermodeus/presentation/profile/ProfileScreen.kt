@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.sbermodeus.domain.model.SkillLevel
-import ru.sbermodeus.presentation.profile.components.SpecializationProgressBar
+import ru.sbermodeus.presentation.profile.components.SpecializationProgressCard
 
 @Composable
 fun ProfileScreen(
@@ -63,18 +63,12 @@ fun ProfileScreen(
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary
         )
-        Spacer(modifier = Modifier.height(5.dp))
-        state.user.specialization?.name?.let {
-            Text(
-                text = it,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.secondary
-            )
-        }
         Spacer(modifier = Modifier.height(18.dp))
         state.user.specialization?.requiredSkills?.map { it.level }?.average()?.div(5.0)?.let {
-            SpecializationProgressBar(
-                progress = it,
+            SpecializationProgressCard(
+                specializationName = state.user.specialization?.name.orEmpty(),
+                specializationDescription = state.user.specialization?.description.orEmpty(),
+                skills = state.user.specialization?.requiredSkills.orEmpty(),
                 onClick = onOpenSpecialization
             )
         }
