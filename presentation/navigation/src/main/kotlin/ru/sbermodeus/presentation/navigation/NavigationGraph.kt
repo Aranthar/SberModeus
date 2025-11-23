@@ -91,9 +91,7 @@ fun NavigationGraph(
                     }
                     is AuthRoute -> NavEntry(key) {
                         AuthScreen(
-                            onLoginClick = { _, _ ->
-                                backStack.add(SpecializationRoute)
-                            }
+                            onLoginClick = { backStack.add(SpecializationRoute) },
                         )
                     }
                     is CoursesRoute -> NavEntry(key) {
