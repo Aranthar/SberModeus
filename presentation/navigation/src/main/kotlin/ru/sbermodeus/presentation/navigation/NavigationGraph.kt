@@ -57,7 +57,7 @@ fun NavigationGraph(
         label = "animatedColor",
         animationSpec = spring(stiffness = Spring.StiffnessLow)
     )
-    val viewModel: CoursesScreenViewModel = hiltViewModel()
+    val coursesViewModel: CoursesScreenViewModel = hiltViewModel()
 
     Scaffold(
         bottomBar = {
@@ -98,7 +98,7 @@ fun NavigationGraph(
                         )
                     }
                     is CoursesRoute -> NavEntry(key) {
-                        CoursesScreen(viewModel)
+                        CoursesScreen(coursesViewModel)
                     }
                     is RoadmapRoute -> NavEntry(key) {
                         RoadmapScreen()

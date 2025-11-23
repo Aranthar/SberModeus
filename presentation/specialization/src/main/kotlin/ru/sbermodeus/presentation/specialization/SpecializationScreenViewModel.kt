@@ -13,13 +13,17 @@ import kotlinx.coroutines.plus
 import ru.sbermodeus.domain.model.DemandLevel
 import ru.sbermodeus.domain.model.SkillLevel
 import ru.sbermodeus.domain.model.Specialization
+import ru.sbermodeus.domain.repository.CacheRepository
 import ru.sbermodeus.domain.repository.SpecializationRepository
+import ru.sbermodeus.domain.repository.UserRepository
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class SpecializationScreenViewModel @Inject constructor(
     private val specializationRepository: SpecializationRepository,
+    private val userRepository: UserRepository,
+    private val cacheRepository: CacheRepository
 ) : ViewModel() {
     val vmScope = viewModelScope + SupervisorJob()
 
@@ -73,10 +77,14 @@ class SpecializationScreenViewModel @Inject constructor(
         }
     }
     fun confirmSpecialization() {
+        val selected = _state.value.selectedSpecialization ?: return
         _state.value = _state.value.copy(
-            confirmedSpecialization = _state.value.selectedSpecialization,
+            confirmedSpecialization = selected,
             selectedSpecialization = null
         )
+        vmScope.launch {
+            cacheRepository.getMyId()?.let { userRepository.updateSpecialization(it, selected.id) }
+        }
     }
 
     fun dismissSheet() {
