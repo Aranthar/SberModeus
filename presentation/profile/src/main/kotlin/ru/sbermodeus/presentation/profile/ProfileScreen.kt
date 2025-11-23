@@ -84,7 +84,7 @@ fun ProfileScreen(
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.primary
         )
-        Spacer(modifier = Modifier.height(7.dp))
+        Spacer(modifier = Modifier.height(14.dp))
         ProfileSkillsGrid(skills = state.skillsList)
     }
 }
