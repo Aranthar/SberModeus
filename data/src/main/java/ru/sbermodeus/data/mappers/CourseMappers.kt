@@ -15,13 +15,9 @@ fun CourseDTO.toDomain(): Course = Course(
     givenSkillLevels = givenSkillLevels.toDomain(),
 )
 
-fun List<CourseDTO>.toDomain(): List<Course> = this.map { it.toDomain() }
-
-fun RoadmapDTO.toDomain(): Roadmap = Roadmap(periods = periods.toDomain())
+fun RoadmapDTO.toDomain(): Roadmap = Roadmap(periods = periods.map { it.toDomain() })
 
 fun RoadmapPeriodDTO.toDomain(): RoadmapPeriod = RoadmapPeriod(
     period = period,
-    courses = courses.toDomain(),
+    courses = courses.map { it.toDomain() },
 )
-
-fun List<RoadmapPeriodDTO>.toDomain(): List<RoadmapPeriod> = this.map { it.toDomain() }

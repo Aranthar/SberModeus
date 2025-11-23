@@ -22,7 +22,7 @@ class CourseRepositoryImpl @Inject constructor(
     override suspend fun getAllCourses(): List<Course>? {
         return courseDataStore
             .getAllCourses()
-            ?.toDomain()
+            ?.map { it.toDomain() }
     }
 
     override suspend fun getRoadmap(userId: UUID): Roadmap? {

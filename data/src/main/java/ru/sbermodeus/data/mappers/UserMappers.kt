@@ -12,8 +12,8 @@ fun UserDTO.toDomain(): User = User(
     name = name,
     surname = surname,
     specialization = specialization?.toDomain(),
-    activeCourses = activeCourses?.toDomain(),
-    completedCourses = completedCourses?.toDomain(),
+    activeCourses = activeCourses?.map { it.toDomain() },
+    completedCourses = completedCourses?.map{ it.toDomain() },
     skills = skills?.toDomain(),
 )
 
