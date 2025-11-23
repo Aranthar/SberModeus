@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import ru.sbermodeus.domain.model.SkillLevel
+import ru.sbermodeus.presentation.profile.components.SpecializationProgressBar
 
 @Composable
 fun ProfileScreen(
@@ -20,76 +23,67 @@ fun ProfileScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(20.dp)
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Text(
-                text = "${state.user.name} ${state.user.surname}",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(Modifier.height(10.dp))
-            Text(
-                text = "Специализация: ${state.user.specialization?.name}",
-                style = MaterialTheme.typography.titleMedium
-            )
-            Spacer(Modifier.height(3.dp))
-            Text(
-                text = state.user.specialization?.description?: "",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(Modifier.height(10.dp))
-
-            // Прогресс по специализации (например, средний навык по входным скиллам)
-            val progress = state.user.specialization?.requiredSkills?.map { it.level }?.average()
-                ?.div(5.0)
-            SpecializationProgressBar(progress ?: 0.0)
-        }
-        item {
-            Spacer(Modifier.height(24.dp))
-            Text("Навыки", style = MaterialTheme.typography.titleMedium)
-            Spacer(Modifier.height(6.dp))
-            SkillsRowBox(state.skillsList)
-        }
-    }
-}
-
-@Composable
-fun SpecializationProgressBar(progress: Double) {
-    Column {
-        Text("Прогресс специализации", style = MaterialTheme.typography.labelMedium)
-        Spacer(Modifier.height(7.dp))
-        LinearProgressIndicator(
-            progress = progress.toFloat().coerceIn(0f, 1f),
+        // Аватар с инициалами и level ring
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+                .size(96.dp)
+                .clip(RoundedCornerShape(50))
+                .background(MaterialTheme.colorScheme.secondary)
+        ) {
+            Text(
+                text = "${state.user.name.firstOrNull() ?: ""}${state.user.surname.firstOrNull() ?: ""}".uppercase(),
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSecondary,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "${(progress * 100).toInt()}%",
-            style = MaterialTheme.typography.labelSmall,
-            modifier = Modifier.align(Alignment.End),
+            text = "${state.user.name} ${state.user.surname}",
+            style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary
         )
+        Spacer(modifier = Modifier.height(5.dp))
+        state.user.specialization?.name?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
+        Spacer(modifier = Modifier.height(18.dp))
+        state.user.specialization?.requiredSkills?.map { it.level }?.average()?.div(5.0)?.let {
+            SpecializationProgressBar(
+                progress = it
+            )
+        }
+        Spacer(modifier = Modifier.height(26.dp))
+        Text(
+            text = "🏅 Навыки и достижения",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.height(7.dp))
+        ProfileSkillsGrid(skills = state.skillsList)
     }
 }
 
 @Composable
-fun SkillsRowBox(skills: List<SkillLevel>) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+fun ProfileSkillsGrid(skills: List<SkillLevel>) {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth()
     ) {
         skills.forEach { skill ->
-            SkillLevelBox(skill)
+            Box(Modifier.padding(end = 12.dp, bottom = 12.dp)) {
+                SkillLevelBox(skill)
+            }
         }
     }
 }
@@ -98,22 +92,46 @@ fun SkillsRowBox(skills: List<SkillLevel>) {
 fun SkillLevelBox(skill: SkillLevel) {
     Box(
         Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.secondaryContainer)
-            .padding(horizontal = 12.dp, vertical = 10.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(
+                when {
+                    skill.level >= 5 -> MaterialTheme.colorScheme.secondary
+                    skill.level >= 3 -> MaterialTheme.colorScheme.primary
+                    else -> Color(0xFFF4B600) // яркий жёлтый для начинающих
+                }
+            )
+            .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = skill.name,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.EmojiEvents,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(18.dp)
             )
-            Spacer(Modifier.height(3.dp))
-            Text(
-                text = "${skill.level}/5",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary
-            )
+            Spacer(Modifier.width(7.dp))
+            Column {
+                Text(
+                    text = skill.name,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.White
+                )
+                LinearProgressIndicator(
+                    progress = skill.level / 5f,
+                    modifier = Modifier
+                        .width(48.dp)
+                        .height(4.dp)
+                        .clip(RoundedCornerShape(2.dp)),
+                    color = Color.White,
+                    trackColor = Color.White.copy(alpha = 0.15f)
+                )
+                Text(
+                    text = "${skill.level}/5",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
         }
     }
 }

@@ -9,7 +9,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import ru.sbermodeus.ui.theme.AppColorScheme
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -33,6 +35,20 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+val AppColorScheme = lightColorScheme(
+    primary = Color(0xFF5B44FF),
+    onPrimary = Color.White,
+    secondary = Color(0xFF16CA98),
+    onSecondary = Color.White,
+    background = Color(0xFFF3F2FF),
+    surface = Color.White,
+    error = Color(0xFFFF6161),
+    onSurface = Color(0xFF29274B),
+    primaryContainer = Color(0xFFE6E1FF),
+    secondaryContainer = Color(0xFFD0FFF4),
+)
+
+
 @Composable
 fun SberModeusTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -40,15 +56,7 @@ fun SberModeusTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = AppColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
