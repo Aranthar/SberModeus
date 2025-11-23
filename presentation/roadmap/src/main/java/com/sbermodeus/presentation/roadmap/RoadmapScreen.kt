@@ -113,7 +113,7 @@ fun ModernRoadmapPeriodBlock(period: RoadmapPeriod) {
 @Composable
 fun ModernRoadmapCourseChip(course: Course, accent: Color) {
     val animatedCardColor by animateColorAsState(
-        targetValue = accent.copy(alpha = 0.25f),
+        targetValue = accent.copy(alpha = 0.15f),
         label = "animCardColor"
     )
     Card(
