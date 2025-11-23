@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
@@ -22,6 +23,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.sbermodeus.presentation.roadmap.RoadmapScreen
 import ru.sbermodeus.presentation.auth.AuthScreen
 import ru.sbermodeus.presentation.courses.CoursesScreen
+import ru.sbermodeus.presentation.courses.CoursesScreenViewModel
 import ru.sbermodeus.presentation.navigation.bottom_bar.AnimatedBottomBar
 import ru.sbermodeus.presentation.navigation.bottom_bar.BottomBarTab
 import ru.sbermodeus.presentation.navigation.bottom_bar.tabs
@@ -55,6 +57,7 @@ fun NavigationGraph(
         label = "animatedColor",
         animationSpec = spring(stiffness = Spring.StiffnessLow)
     )
+    val viewModel: CoursesScreenViewModel = hiltViewModel()
 
     Scaffold(
         bottomBar = {
@@ -95,7 +98,7 @@ fun NavigationGraph(
                         )
                     }
                     is CoursesRoute -> NavEntry(key) {
-                        CoursesScreen()
+                        CoursesScreen(viewModel)
                     }
                     is RoadmapRoute -> NavEntry(key) {
                         RoadmapScreen()

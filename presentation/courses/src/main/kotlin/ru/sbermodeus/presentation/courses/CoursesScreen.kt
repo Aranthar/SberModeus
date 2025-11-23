@@ -16,7 +16,7 @@ import ru.sbermodeus.presentation.courses.components.CourseCard
 
 @Composable
 fun CoursesScreen(
-    viewModel: CoursesScreenViewModel = hiltViewModel(),
+    viewModel: CoursesScreenViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
