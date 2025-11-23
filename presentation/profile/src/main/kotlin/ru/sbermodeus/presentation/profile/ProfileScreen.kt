@@ -19,6 +19,7 @@ import ru.sbermodeus.presentation.profile.components.SpecializationProgressBar
 
 @Composable
 fun ProfileScreen(
+    onOpenSpecialization: () -> Unit,
     viewModel: ProfileScreenViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -30,7 +31,6 @@ fun ProfileScreen(
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Аватар с инициалами и level ring
         Box(
             modifier = Modifier
                 .size(96.dp)
@@ -61,7 +61,8 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(18.dp))
         state.user.specialization?.requiredSkills?.map { it.level }?.average()?.div(5.0)?.let {
             SpecializationProgressBar(
-                progress = it
+                progress = it,
+                onClick = onOpenSpecialization
             )
         }
         Spacer(modifier = Modifier.height(26.dp))
@@ -95,9 +96,9 @@ fun SkillLevelBox(skill: SkillLevel) {
             .clip(RoundedCornerShape(16.dp))
             .background(
                 when {
-                    skill.level >= 5 -> MaterialTheme.colorScheme.secondary
-                    skill.level >= 3 -> MaterialTheme.colorScheme.primary
-                    else -> Color(0xFFF4B600) // яркий жёлтый для начинающих
+                    skill.level >= 4 -> MaterialTheme.colorScheme.secondary
+                    skill.level >= 2 -> MaterialTheme.colorScheme.primary
+                    else -> Color(0xFFF4B600)
                 }
             )
             .padding(horizontal = 16.dp, vertical = 10.dp)
@@ -110,28 +111,17 @@ fun SkillLevelBox(skill: SkillLevel) {
                 modifier = Modifier.size(18.dp)
             )
             Spacer(Modifier.width(7.dp))
-            Column {
-                Text(
-                    text = skill.name,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = Color.White
-                )
-                LinearProgressIndicator(
-                    progress = skill.level / 5f,
-                    modifier = Modifier
-                        .width(48.dp)
-                        .height(4.dp)
-                        .clip(RoundedCornerShape(2.dp)),
-                    color = Color.White,
-                    trackColor = Color.White.copy(alpha = 0.15f)
-                )
-                Text(
-                    text = "${skill.level}/5",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.White,
-                    modifier = Modifier.align(Alignment.End)
-                )
-            }
+            Text(
+                text = skill.name,
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.White
+            )
+            Spacer(Modifier.width(7.dp))
+            Text(
+                text = "${skill.level}/5",
+                style = MaterialTheme.typography.labelLarge,
+                color = Color.White,
+            )
         }
     }
 }

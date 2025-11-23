@@ -103,7 +103,11 @@ fun NavigationGraph(
                         RoadmapScreen()
                     }
                     is ProfileRoute -> NavEntry(key){
-                        ProfileScreen()
+                        ProfileScreen(
+                            onOpenSpecialization = {
+                                backStack.add(SpecializationRoute)
+                            }
+                        )
                     }
 
                     else -> NavEntry(Unit) { Text("Unknown route") }

@@ -51,10 +51,27 @@ class SpecializationScreenViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(
         SpecializationState(
-            specializationList = mockSpecializations
+            specializationList = mockSpecializations,
+            confirmedSpecialization = mockSpecializations.last()
+            // mockSpecializations.map {
+        //      user.spetialization == it
+        //   }
         )
     )
     val state: StateFlow<SpecializationState> = _state.asStateFlow()
 
+    fun selectSpecialization(specialization: Specialization) {
+        _state.value = _state.value.copy(selectedSpecialization = specialization)
+    }
 
+    fun confirmSpecialization() {
+        _state.value = _state.value.copy(
+            confirmedSpecialization = _state.value.selectedSpecialization,
+            selectedSpecialization = null
+        )
+    }
+
+    fun dismissSheet() {
+        _state.value = _state.value.copy(selectedSpecialization = null)
+    }
 }
