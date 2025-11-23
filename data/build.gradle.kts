@@ -30,6 +30,9 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
 
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
     // DI Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

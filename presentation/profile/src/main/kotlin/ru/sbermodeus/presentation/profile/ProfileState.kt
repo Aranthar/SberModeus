@@ -5,5 +5,5 @@ import ru.sbermodeus.domain.model.User
 
 data class ProfileState(
     val user: User,
-    val skillsList: List<SkillLevel>
+    val skillsList: List<SkillLevel>?,
 )

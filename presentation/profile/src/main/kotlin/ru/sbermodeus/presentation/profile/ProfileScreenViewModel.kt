@@ -8,11 +8,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import ru.sbermodeus.domain.model.DemandLevel
 import ru.sbermodeus.domain.model.SkillLevel
 import ru.sbermodeus.domain.model.Specialization
 import ru.sbermodeus.domain.model.User
+import ru.sbermodeus.domain.repository.CacheRepository
 import ru.sbermodeus.domain.repository.UserRepository
 import java.util.UUID
 import javax.inject.Inject
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val cacheRepository: CacheRepository,
 ) : ViewModel() {
     val vmScope = viewModelScope + SupervisorJob()
 
@@ -63,9 +66,10 @@ class ProfileScreenViewModel @Inject constructor(
     }
 
     private fun getData() {
-        _state.update {
-            //val skills = userRepository.
-            it.copy()
+        vmScope.launch {
+            val myId = cacheRepository.getMyId() ?: return@launch
+            val me = userRepository.getUserById(id = myId) ?: return@launch
+            _state.update { it.copy(skillsList = me.skills) }
         }
     }
 }

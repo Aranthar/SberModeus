@@ -7,18 +7,22 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import ru.sbermodeus.domain.model.Course
 import ru.sbermodeus.domain.model.Roadmap
 import ru.sbermodeus.domain.model.RoadmapPeriod
 import ru.sbermodeus.domain.model.SkillLevel
+import ru.sbermodeus.domain.repository.CacheRepository
+import ru.sbermodeus.domain.repository.CourseRepository
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class RoadmapScreenViewModel @Inject constructor(
-
+    private val courseRepository: CourseRepository,
+    private val cacheRepository: CacheRepository,
 ) : ViewModel() {
     val vmScope = viewModelScope + SupervisorJob()
 
@@ -79,7 +83,9 @@ class RoadmapScreenViewModel @Inject constructor(
 
     private fun getData() {
         vmScope.launch {
-
+            val myId = cacheRepository.getMyId() ?: return@launch
+            val roadmap = courseRepository.getRoadmap(userId = myId) ?: return@launch
+            _state.update { it.copy(roadmap = roadmap) }
         }
     }
 }
