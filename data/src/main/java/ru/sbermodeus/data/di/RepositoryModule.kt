@@ -4,12 +4,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.sbermodeus.data.datastore.remote.CacheDataStore
 import ru.sbermodeus.data.datastore.remote.CourseDataStore
 import ru.sbermodeus.data.datastore.remote.SpecializationDataStore
 import ru.sbermodeus.data.datastore.remote.UserDataStore
+import ru.sbermodeus.data.repository.CacheRepositoryImpl
 import ru.sbermodeus.data.repository.CourseRepositoryImpl
 import ru.sbermodeus.data.repository.SpecializationRepositoryImpl
 import ru.sbermodeus.data.repository.UserRepositoryImpl
+import ru.sbermodeus.domain.repository.CacheRepository
 import ru.sbermodeus.domain.repository.CourseRepository
 import ru.sbermodeus.domain.repository.SpecializationRepository
 import ru.sbermodeus.domain.repository.UserRepository
@@ -33,5 +36,10 @@ object RepositoryModule {
     @Singleton
     fun provideSpecializationRepository(specializationDataStore: SpecializationDataStore): SpecializationRepository =
         SpecializationRepositoryImpl(specializationDataStore)
+
+    @Provides
+    @Singleton
+    fun provideCacheRepository(cacheDataStore: CacheDataStore): CacheRepository =
+        CacheRepositoryImpl(cacheDataStore = cacheDataStore)
 }
 
