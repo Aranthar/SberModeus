@@ -62,11 +62,24 @@ class SpecializationScreenViewModel @Inject constructor(
     init {
         getData()
     }
+    fun selectSpecialization(specialization: Specialization) {
+        _state.value = _state.value.copy(selectedSpecialization = specialization)
+    }
 
     private fun getData() {
         vmScope.launch {
             val specializations = specializationRepository.getAllSpecializations() ?: return@launch
             _state.update { it.copy(specializationList = specializations) }
         }
+    }
+    fun confirmSpecialization() {
+        _state.value = _state.value.copy(
+            confirmedSpecialization = _state.value.selectedSpecialization,
+            selectedSpecialization = null
+        )
+    }
+
+    fun dismissSheet() {
+        _state.value = _state.value.copy(selectedSpecialization = null)
     }
 }

@@ -38,21 +38,19 @@ fun SpecializationScreen(
     viewModel: SpecializationScreenViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    var selectedSpecialization by remember { mutableStateOf<Specialization?>(null) }
-    var confirmedSpecialization by remember { mutableStateOf<Specialization?>(null) }
     val coroutineScope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     Scaffold(
         bottomBar = {
             Button(
                 onClick = {
-                    onSpecializationSelect(confirmedSpecialization!!.id)
-                    onNavigateToCourses()
+                    state.confirmedSpecialization?.let {
+                        onSpecializationSelect(it.id)
+                        onNavigateToCourses()
+                    }
                 },
-                enabled = confirmedSpecialization != null,
+                enabled = state.confirmedSpecialization != null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -71,29 +69,28 @@ fun SpecializationScreen(
             items(state.specializationList, key = { it.id }) { specialization ->
                 SpecializationCard(
                     specialization = specialization,
-                    isSelected = specialization == confirmedSpecialization,
+                    isSelected = specialization == state.confirmedSpecialization,
                     onClick = {
-                        selectedSpecialization = specialization
+                        viewModel.selectSpecialization(specialization)
                         coroutineScope.launch { bottomSheetState.show() }
                     }
                 )
             }
         }
 
-        if (selectedSpecialization != null) {
+        state.selectedSpecialization?.let { specialization ->
             ModalBottomSheet(
                 onDismissRequest = {
+                    viewModel.dismissSheet()
                     coroutineScope.launch { bottomSheetState.hide() }
-                    selectedSpecialization = null
                 },
                 sheetState = bottomSheetState
             ) {
                 SpecializationInfo(
-                    specialization = selectedSpecialization!!,
+                    specialization = specialization,
                     onConfirm = {
-                        confirmedSpecialization = selectedSpecialization
+                        viewModel.confirmSpecialization()
                         coroutineScope.launch { bottomSheetState.hide() }
-                        selectedSpecialization = null
                     }
                 )
             }

@@ -1,6 +1,7 @@
 package ru.sbermodeus.presentation.profile.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,13 +18,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SpecializationProgressBar(progress: Double) {
+fun SpecializationProgressBar(
+    progress: Double,
+    onClick: () -> Unit
+) {
     Box(
         Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(8.dp)
+            .clickable { onClick() }
     ) {
         Column {
             Text("Прогресс специализации", style = MaterialTheme.typography.bodyMedium)
