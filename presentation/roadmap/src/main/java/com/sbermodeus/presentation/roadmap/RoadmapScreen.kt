@@ -34,9 +34,8 @@ fun RoadmapScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(18.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         state.roadmap.periods.forEach { period ->
             item {
@@ -48,66 +47,63 @@ fun RoadmapScreen(
 
 @Composable
 fun ModernRoadmapPeriodBlock(period: RoadmapPeriod) {
-    val grad = Brush.horizontalGradient(
-        listOf(
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-            MaterialTheme.colorScheme.secondary.copy(alpha = 0.10f),
-            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.30f)
-        )
-    )
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(8.dp)
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
+        Box(
+            Modifier
+                .width(5.dp)
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(topEnd = 6.dp, bottomEnd = 6.dp))
+                .background(MaterialTheme.colorScheme.primary)
+        )
+        Spacer(Modifier.width(9.dp))
+        // Весь контент семестра
         Column(
-            modifier = Modifier
-                .background(grad)
-                .padding(20.dp)
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20.dp))
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(vertical = 16.dp, horizontal = 12.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Box(
+                Icon(
+                    imageVector = Icons.Default.School,
+                    tint = MaterialTheme.colorScheme.primary,
+                    contentDescription = null,
                     modifier = Modifier
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.secondary)
-                        .padding(8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.School,
-                        tint = MaterialTheme.colorScheme.onSecondary,
-                        contentDescription = null,
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
+                        .size(26.dp)
+                        .background(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            CircleShape
+                        )
+                        .padding(4.dp)
+                )
                 Text(
                     text = "Семестр ${period.period}",
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(start = 14.dp)
+                    modifier = Modifier.padding(start = 12.dp)
                 )
                 Spacer(Modifier.weight(1f))
-                // Очки за семестр - playful badge
                 ChipBadge(points = 100 * period.period)
             }
-            Spacer(Modifier.height(14.dp))
-
-            period.courses.forEach { course ->
-                ModernRoadmapCourseChip(
-                    course = course,
-                    accent = getAccentColorForCourse(course)
-                )
-                Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(8.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                period.courses.forEach { course ->
+                    ModernRoadmapCourseChip(
+                        course = course,
+                        accent = getAccentColorForCourse(course)
+                    )
+                }
             }
-
-            // Прогресс по прохождению семестра
-            val semesterProgress = period.courses.map { 1 }.sum().toFloat() / (period.courses.size * 1f)
-            ProgressBarWithLabel(progress = semesterProgress)
+            Spacer(Modifier.height(8.dp))
+            ProgressBarWithLabel(progress = 1f) // Пример. Замените "1f" на реальный прогресс
         }
     }
 }
@@ -115,23 +111,29 @@ fun ModernRoadmapPeriodBlock(period: RoadmapPeriod) {
 @Composable
 fun ModernRoadmapCourseChip(course: Course, accent: Color) {
     val animatedCardColor by animateColorAsState(
-        targetValue = accent.copy(alpha = 0.15f),
+        targetValue = accent.copy(alpha = 0.11f),
         label = "animCardColor"
     )
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 2.dp),
+        shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
             containerColor = animatedCardColor
         ),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 15.dp, vertical = 13.dp),
+            modifier = Modifier
+                .padding(start = 15.dp, end = 6.dp)
+                .heightIn(min = 56.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 10.dp, horizontal = 0.dp)
             ) {
                 Text(
                     text = course.name,
@@ -141,14 +143,17 @@ fun ModernRoadmapCourseChip(course: Course, accent: Color) {
                 Text(
                     text = course.description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2
                 )
             }
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = null,
                 tint = accent,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier
+                    .padding(horizontal = 7.dp)
+                    .size(23.dp)
             )
         }
     }
@@ -158,13 +163,13 @@ fun ModernRoadmapCourseChip(course: Course, accent: Color) {
 fun ChipBadge(points: Int) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(50))
-            .background(MaterialTheme.colorScheme.secondary)
-            .padding(horizontal = 14.dp, vertical = 7.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .padding(horizontal = 14.dp, vertical = 6.dp)
     ) {
         Text(
             text = "★ $points XP",
-            color = MaterialTheme.colorScheme.onSecondary,
+            color = MaterialTheme.colorScheme.secondary,
             style = MaterialTheme.typography.labelLarge
         )
     }
@@ -172,18 +177,23 @@ fun ChipBadge(points: Int) {
 
 @Composable
 fun ProgressBarWithLabel(progress: Float) {
-    Column(Modifier.padding(top = 9.dp)) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 7.dp)
+    ) {
         LinearProgressIndicator(
             progress = progress.coerceIn(0f, 1f),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(6.dp)
+                .height(5.5.dp)
                 .clip(RoundedCornerShape(6.dp)),
             color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.17f)
+            trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
         )
+        Spacer(Modifier.height(3.dp))
         Text(
-            text = "Прогресс семестра: ${(progress * 100).toInt()}%",
+            text = "Прогресс: ${(progress * 100).toInt()}%",
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.align(Alignment.End)
@@ -193,10 +203,12 @@ fun ProgressBarWithLabel(progress: Float) {
 
 fun getAccentColorForCourse(course: Course): Color {
     val accents = listOf(
-        Color(0xFF5B44FF), // Primary Indigo
-        Color(0xFF16CA98), // Mint
-        Color(0xFFF4B600), // Yellow
-        Color(0xFF6750A4), // Material M3 Primary
+        Color(0xFF5B44FF),
+        Color(0xFF16CA98),
+        Color(0xFFF4B600),
+        Color(0xFF6750A4),
+        Color(0xFF4FBAF6),
+        Color(0xFFEC5766),
     )
     return accents[course.name.hashCode().absoluteValue % accents.size]
 }
