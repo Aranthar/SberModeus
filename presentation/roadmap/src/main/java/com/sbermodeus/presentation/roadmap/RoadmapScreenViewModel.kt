@@ -7,6 +7,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import ru.sbermodeus.domain.model.Course
 import ru.sbermodeus.domain.model.Roadmap
@@ -72,4 +73,13 @@ class RoadmapScreenViewModel @Inject constructor(
     ))
     val state: StateFlow<RoadmapState> = _state.asStateFlow()
 
+    init {
+        getData()
+    }
+
+    private fun getData() {
+        vmScope.launch {
+
+        }
+    }
 }
