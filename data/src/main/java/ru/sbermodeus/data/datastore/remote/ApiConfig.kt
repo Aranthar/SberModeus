@@ -10,6 +10,7 @@ object ApiConfig {
     const val API_USER_COURSE: String = "$API_USERS/course"
     const val API_COURSES: String = "$API_V1/courses"
     const val API_ROADMAP: String = "$API_V1/roadmap"
+    const val API_SPEC: String = "$API_V1/specialization"
 
     //Courses
     fun getCourseById(id: UUID) = "$API_COURSES/$id"
@@ -33,4 +34,7 @@ object ApiConfig {
     fun completeCourseForce(userId: UUID, courseId: UUID): String {
         return "$API_USER_COURSE/force?user_id=$userId&course_id=$courseId"
     }
+
+    // Specialization
+    fun getAllSpecializations() = "$API_SPEC/all"
 }

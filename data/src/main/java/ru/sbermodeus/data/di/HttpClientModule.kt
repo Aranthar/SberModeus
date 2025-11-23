@@ -14,6 +14,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import ru.sbermodeus.data.ktor.RequestManager
 import javax.inject.Singleton
 
 @Module
@@ -42,4 +43,9 @@ object HttpClientModule {
             }
         }
     }
+
+    @Singleton
+    @Provides
+    fun provideRequestManager(httpClient: HttpClient): RequestManager =
+        RequestManager(httpClient = httpClient)
 }

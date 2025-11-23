@@ -7,20 +7,19 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.plus
-import ru.sbermodeus.domain.model.Course
 import ru.sbermodeus.domain.model.DemandLevel
-import ru.sbermodeus.domain.model.Roadmap
-import ru.sbermodeus.domain.model.RoadmapPeriod
 import ru.sbermodeus.domain.model.SkillLevel
 import ru.sbermodeus.domain.model.Specialization
 import ru.sbermodeus.domain.model.User
+import ru.sbermodeus.domain.repository.UserRepository
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileScreenViewModel @Inject constructor(
-
+    private val userRepository: UserRepository,
 ) : ViewModel() {
     val vmScope = viewModelScope + SupervisorJob()
 
@@ -59,4 +58,14 @@ class ProfileScreenViewModel @Inject constructor(
     ))
     val state: StateFlow<ProfileState> = _state.asStateFlow()
 
+    init {
+        getData()
+    }
+
+    private fun getData() {
+        _state.update {
+            //val skills = userRepository.
+            it.copy()
+        }
+    }
 }

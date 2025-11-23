@@ -7,16 +7,19 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import ru.sbermodeus.domain.model.DemandLevel
 import ru.sbermodeus.domain.model.SkillLevel
 import ru.sbermodeus.domain.model.Specialization
+import ru.sbermodeus.domain.repository.SpecializationRepository
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class SpecializationScreenViewModel @Inject constructor(
-
+    private val specializationRepository: SpecializationRepository,
 ) : ViewModel() {
     val vmScope = viewModelScope + SupervisorJob()
 
@@ -51,19 +54,24 @@ class SpecializationScreenViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(
         SpecializationState(
-            specializationList = mockSpecializations,
-            confirmedSpecialization = mockSpecializations.last()
-            // mockSpecializations.map {
-        //      user.spetialization == it
-        //   }
+            specializationList = mockSpecializations
         )
     )
     val state: StateFlow<SpecializationState> = _state.asStateFlow()
 
+    init {
+        getData()
+    }
     fun selectSpecialization(specialization: Specialization) {
         _state.value = _state.value.copy(selectedSpecialization = specialization)
     }
 
+    private fun getData() {
+        vmScope.launch {
+            val specializations = specializationRepository.getAllSpecializations() ?: return@launch
+            _state.update { it.copy(specializationList = specializations) }
+        }
+    }
     fun confirmSpecialization() {
         _state.value = _state.value.copy(
             confirmedSpecialization = _state.value.selectedSpecialization,
