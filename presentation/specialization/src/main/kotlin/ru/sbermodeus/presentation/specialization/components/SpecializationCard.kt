@@ -73,6 +73,7 @@ fun SpecializationCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2
                 )
+                Spacer(modifier = Modifier.height(6.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     specialization.requiredSkills.take(2).forEach {
                         Box(

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.sbermodeus.domain.model.Course
 import ru.sbermodeus.domain.model.RoadmapPeriod
 import kotlin.math.absoluteValue
@@ -27,7 +29,7 @@ import kotlin.math.absoluteValue
 fun RoadmapScreen(
     viewModel: RoadmapScreenViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LazyColumn(
         modifier = Modifier
@@ -113,7 +115,7 @@ fun ModernRoadmapPeriodBlock(period: RoadmapPeriod) {
 @Composable
 fun ModernRoadmapCourseChip(course: Course, accent: Color) {
     val animatedCardColor by animateColorAsState(
-        targetValue = accent.copy(alpha = 0.25f),
+        targetValue = accent.copy(alpha = 0.15f),
         label = "animCardColor"
     )
     Card(
