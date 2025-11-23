@@ -44,7 +44,7 @@ fun SpecializationProgressCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(18.dp)),
-        tonalElevation = 4.dp,
+        tonalElevation = 0.dp,
         shadowElevation = 0.dp,
         shape = RoundedCornerShape(18.dp),
         color = MaterialTheme.colorScheme.surface
@@ -90,7 +90,6 @@ fun SpecializationProgressCard(
                 }
             }
 
-            // Прогресс-бар + подписи
             Column(Modifier.padding(top = 4.dp)) {
                 LinearProgressIndicator(
                     progress = avgProgress.toFloat(),
