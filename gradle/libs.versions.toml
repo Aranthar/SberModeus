@@ -27,6 +27,8 @@ hiltAndroid = "2.57.1"
 # KSP version
 kspVersion = "2.0.21-1.0.25"
 
+kotlinVersion = "2.1.0"
+
 ktorVersion = "2.3.12"
 kotlinxSerializationJsonVersion = "1.8.0"
 
@@ -86,6 +88,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 
 # Hilt plugin
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+
+plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
 
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
 

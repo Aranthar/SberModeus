@@ -1,12 +1,21 @@
 package ru.sbermodeus.data.datastore.remote
 
 import io.ktor.http.HttpMethod
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import ru.sbermodeus.data.ktor.RequestManager
 import ru.sbermodeus.data.model.dto.UserDTO
 import ru.sbermodeus.data.utils.Utils.castOrNull
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+
+@Serializable
+data class CreateUserDTO(
+    @SerialName(value = "login") val login: String,
+    @SerialName(value = "name") val name: String,
+    @SerialName(value = "surname") val surname: String,
+)
 
 @Singleton
 class UserDataStore @Inject constructor(
@@ -25,10 +34,7 @@ class UserDataStore @Inject constructor(
         val response = requestManager.createRequest(
             methodType = HttpMethod.Post,
             address = ApiConfig.API_USERS,
-            body = UserDTO(
-                id = UUID
-                    .randomUUID()
-                    .toString(),
+            body = CreateUserDTO(
                 login = "$name $surname",
                 name = name,
                 surname = surname,

@@ -6,9 +6,10 @@ import ru.sbermodeus.data.model.dto.RoadmapPeriodDTO
 import ru.sbermodeus.domain.model.Course
 import ru.sbermodeus.domain.model.Roadmap
 import ru.sbermodeus.domain.model.RoadmapPeriod
+import java.util.UUID
 
 fun CourseDTO.toDomain(): Course = Course(
-    id = id,
+    id = UUID.fromString(id),
     name = name,
     description = description,
     requiredSkillLevels = requiredSkillLevels.toDomain(),

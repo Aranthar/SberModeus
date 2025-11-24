@@ -3,7 +3,7 @@ package ru.sbermodeus.data.datastore.remote
 import java.util.UUID
 
 object ApiConfig {
-    const val API: String = "api"
+    const val API: String = "https://w7b6ol-90-156-228-180.ru.tuna.am/api"
     const val API_V1: String = "$API/v1"
     const val API_USERS: String = "$API_V1/users"
     const val API_SKILLS: String = "$API_V1/skills"
@@ -15,7 +15,7 @@ object ApiConfig {
     //Courses
     fun getCourseById(id: UUID) = "$API_COURSES/$id"
     fun getAllCourses() = "$API_COURSES/all"
-    fun getRoadmap(id: UUID) = "$API_COURSES/roadmap/$id"
+    fun getRoadmap(id: UUID) = "$API_COURSES/roadmap?user_id=$id"
 
     // User
     fun getUserById(id: UUID) = "$API_USERS/$id"
